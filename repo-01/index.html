@@ -1,1 +1,218 @@
-index
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art&You</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .hero {
+            background-image: url('file:///D:/project1/ArtGallery/assets/bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slider {
+            animation: slide 12s infinite;
+        }
+
+        @keyframes slide {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            33% {
+                transform: translateX(-100%);
+            }
+
+            66% {
+                transform: translateX(-200%);
+            }
+        }
+
+        .custom-button {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .custom-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+        .scrollable {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+            .scrollable::-webkit-scrollbar {
+                display: none;
+            }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 text-white p-4 sticky top-0 z-10 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">Art&You</a>
+            <ul class="flex space-x-6">
+                <li><a href="gallery.html" class="hover:text-gray-400">Gallery</a></li>
+                <li><a href="forum.html" class="hover:text-gray-400">Forum</a></li>
+                <li><a href="vault.html" class="hover:text-gray-400">Vault</a></li>
+                <li><a href="about.html" class="hover:text-gray-400">About Us</a></li>
+                <li><a href="contact.html" class="hover:text-gray-400">Contact</a></li>
+            </ul>
+            <a href="#profile" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero h-screen flex items-center justify-center text-white">
+        <div class="text-center">
+            <p class="text-lg mb-4">Welcome to Art&You, a world of creativity and connection!</p>
+            <div class="hero-slider flex overflow-hidden">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Discover Stunning Artwork</h1>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Bid and Own Masterpieces</h1>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Join a Thriving Art Community</h1>
+            </div>
+            <a href="#gallery" class="custom-button bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded text-lg">Explore Now</a>
+        </div>
+    </section>
+
+    <!-- Special Section -->
+    <section id="special" class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12">Special Collection</h2>
+            <div class="scrollable space-x-4 justify-center">
+                <div class="shrink-0 bg-gray-200 p-6 rounded shadow-md w-72">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded">
+                    <h3 class="text-lg font-bold mt-4">Unique Artwork 1</h3>
+                    <p class="text-gray-600">Artist: Jane Doe</p>
+                    <p class="text-blue-600 font-bold mt-2">₹5,000</p>
+                    <button class="custom-button bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded mt-4">Buy Now</button>
+                    <button class="custom-button bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded mt-2">Bid</button>
+                </div>
+                <div class="shrink-0 bg-gray-200 p-6 rounded shadow-md w-72">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded">
+                    <h3 class="text-lg font-bold mt-4">Unique Artwork 2</h3>
+                    <p class="text-gray-600">Artist: John Smith</p>
+                    <p class="text-blue-600 font-bold mt-2">₹7,500</p>
+                    <button class="custom-button bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded mt-4">Buy Now</button>
+                    <button class="custom-button bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded mt-2">Bid</button>
+                </div>
+                <div class="shrink-0 bg-gray-200 p-6 rounded shadow-md w-72">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded">
+                    <h3 class="text-lg font-bold mt-4">Unique Artwork 3</h3>
+                    <p class="text-gray-600">Artist: Alice Green</p>
+                    <p class="text-blue-600 font-bold mt-2">₹6,000</p>
+                    <button class="custom-button bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded mt-4">Buy Now</button>
+                    <button class="custom-button bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded mt-2">Bid</button>
+                </div>
+                <div class="shrink-0 bg-gray-200 p-6 rounded shadow-md w-72">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded">
+                    <h3 class="text-lg font-bold mt-4">Unique Artwork 4</h3>
+                    <p class="text-gray-600">Artist: Bob White</p>
+                    <p class="text-blue-600 font-bold mt-2">₹8,000</p>
+                    <button class="custom-button bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded mt-4">Buy Now</button>
+                    <button class="custom-button bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded mt-2">Bid</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 bg-gray-100">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12">Gallery</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-4 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded" alt="Artwork 1">
+                    <h3 class="text-lg font-bold mt-4">Artwork 1</h3>
+                    <p class="text-gray-600">Category: Art</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded" alt="Artwork 2">
+                    <h3 class="text-lg font-bold mt-4">Artwork 2</h3>
+                    <p class="text-gray-600">Category: Art</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded" alt="Artwork 3">
+                    <h3 class="text-lg font-bold mt-4">Artwork 3</h3>
+                    <p class="text-gray-600">Category: Art</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded" alt="Artwork 4">
+                    <h3 class="text-lg font-bold mt-4">Artwork 4</h3>
+                    <p class="text-gray-600">Category: Art</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded" alt="Artwork 5">
+                    <h3 class="text-lg font-bold mt-4">Artwork 5</h3>
+                    <p class="text-gray-600">Category: Art</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" class="w-full rounded" alt="Artwork 6">
+                    <h3 class="text-lg font-bold mt-4">Artwork 6</h3>
+                    <p class="text-gray-600">Category: Art</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- E-commerce Sections -->
+    <section id="gallery" class="py-16 bg-gray-50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12">Explore Categories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-100 p-6 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" alt="Art" class="w-full rounded">
+                    <h3 class="text-2xl font-bold mt-4">Art</h3>
+                    <p class="mt-2 text-gray-600">Paintings, sketches, and more.</p>
+                    <a href="#art-section" class="custom-button bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-white mt-4 block">View More</a>
+                </div>
+                <div class="bg-gray-100 p-6 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" alt="Stationery" class="w-full rounded">
+                    <h3 class="text-2xl font-bold mt-4">Stationery</h3>
+                    <p class="mt-2 text-gray-600">Supplies for every artist.</p>
+                    <a href="#stationery-section" class="custom-button bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-white mt-4 block">View More</a>
+                </div>
+                <div class="bg-gray-100 p-6 rounded shadow-md">
+                    <img src="https://via.placeholder.com/300" alt="Other Materials" class="w-full rounded">
+                    <h3 class="text-2xl font-bold mt-4">Other Materials</h3>
+                    <p class="mt-2 text-gray-600">Sculptures, canvases, and more.</p>
+                    <a href="#materials-section" class="custom-button bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-white mt-4 block">View More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <img src="https://via.placeholder.com/400" alt="About Us" class="rounded-lg shadow-md mb-8 md:mb-0 md:mr-8 w-full md:w-1/2">
+            <div class="text-center md:text-left">
+                <h2 class="text-4xl font-bold mb-4">About Us</h2>
+                <p class="text-gray-600 mb-4">At Art&You, we connect creators and art enthusiasts to bring creativity to life. Join our thriving community and discover stunning artwork that resonates with your soul.</p>
+                <a href="#contact" class="custom-button bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded text-white">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto text-center">
+            <ul class="flex justify-center space-x-8 mb-4">
+                <li><a href="#home" class="hover:text-gray-400">Home</a></li>
+                <li><a href="#contact" class="hover:text-gray-400">Contact Us</a></li>
+                <li><a href="#profile" class="hover:text-gray-400">Profile</a></li>
+            </ul>
+            <div class="flex justify-center space-x-4">
+                <a href="https://facebook.com" target="_blank" class="hover:text-gray-400">Facebook</a>
+                <a href="https://instagram.com" target="_blank" class="hover:text-gray-400">Instagram</a>
+                <a href="https://twitter.com" target="_blank" class="hover:text-gray-400">Twitter</a>
+            </div>
+            <p class="text-sm mt-4">&copy; 2025 Art&You. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
