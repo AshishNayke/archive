@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Art&You - Premium Marketplace for Unique Artworks">
+    <meta name="keywords" content="art, marketplace, digital art, paintings, sculptures, auctions">
+
+    <title>Art&You - Premium Art Marketplace</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #4F46E5;
+            --secondary-color: #10B981;
+            --accent-color: #F59E0B;
+            --dark-color: #1F2937;
+            --transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        /* Enhanced Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #3730a3;
+            }
+
+        /* Improved Text Selection */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Enhanced Button Hover Effects */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--transition-bezier);
+        }
+
+            .btn-hover-effect::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.6s, height 0.6s;
+            }
+
+            .btn-hover-effect:hover::before {
+                width: 300%;
+                height: 300%;
+            }
+
+        /* Enhanced Card Interactions */
+        .art-card {
+            transition: all 0.4s var(--transition-bezier);
+        }
+
+            .art-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+
+        /* Enhanced Image Hover Effects */
+        .image-hover-zoom {
+            transition: transform 0.6s var(--transition-bezier);
+        }
+
+        .art-card:hover .image-hover-zoom {
+            transform: scale(1.1);
+        }
+
+        /* Enhanced Navigation Animation */
+        .nav-link {
+            position: relative;
+        }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--primary-color);
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform 0.3s var(--transition-bezier);
+            }
+
+            .nav-link:hover::after {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+
+        /* Enhanced Loading Animation */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75% );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Enhanced Mobile Menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s var(--transition-bezier);
+        }
+
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+
+        /* Improved Auction Timer */
+        .auction-timer {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s var(--transition-bezier);
+        }
+
+        .art-card:hover .auction-timer {
+            transform: translateY(-5px);
+        }
+
+        /* Enhanced Gallery Grid Animation */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        /* Enhanced Filter Buttons */
+        .filter-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--transition-bezier);
+        }
+
+            .filter-button::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: -100%;
+                background: linear-gradient( 120deg, transparent, rgba(255, 255, 255, 0.2), transparent );
+                transition: all 0.5s;
+            }
+
+            .filter-button:hover::after {
+                left: 100%;
+            }
+
+        /* Enhanced Back to Top Button */
+        #backToTop {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s var(--transition-bezier);
+        }
+
+            #backToTop.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+
+        /* Enhanced Artist Cards */
+        .artist-card {
+            transition: all 0.4s var(--transition-bezier);
+        }
+
+            .artist-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            }
+
+        .artist-badge {
+            background: linear-gradient(135deg, var(--primary-color), #32cd32);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+            }
+        }
+
+        /* Newsletter Input Enhancement */
+        .newsletter-input {
+            transition: all 0.3s var(--transition-bezier);
+        }
+
+            .newsletter-input:focus {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+
+        /* Loading Animation */
+        .loading-spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary-color);
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        <!-- Update the hero section CSS in the style tag -->
+        /* Enhanced Animations */
+        
+        @keyframes fadeInScale {
+            from{
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to{
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatAnimation {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-50px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+            }
+        }
+
+        .float-element {
+            animation: floatAnimation 6s ease-in-out infinite;
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+
+        /* Add these styles */
+        .hero {
+            position: relative;
+            min-height: 50vh;
+            background-image: url('acdd.jpg'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- In the navigation section, add the theme toggle before the auth buttons -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center space-x-2">
+                    <img src="file:///D:/project1/logo/logo.jpg" alt="Art&You Logo" class="w-10 h-10 rounded-full">
+                    <span class="text-2xl font-bold heading-font bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                        Art&You
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="file:///D:/project1/ArtGallery/gallery.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Gallery
+                    </a>
+                    <a href="file:///D:/project1/ArtGallery/artists.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Artists
+                    </a>
+                    <a href="file:///D:/project1/ArtGallery/auction.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Auctions
+                    </a>
+                    <a href="file:///D:/project1/ArtGallery/forum.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Forum
+                    </a>
+                    <!--
+                    <a href="/forum" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Forum
+                    </a>-->
+                </div>
+
+
+                <!-- Auth Buttons -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <button class="px-6 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        Sign In
+                    </button>
+                    <button class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                        Join Now
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden rounded-md p-2 hover:bg-gray-100" aria-label="Menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu fixed inset-0 bg-white z-50 lg:hidden">
+            <!-- Mobile menu content -->
+        </div>
+    </nav>
+
+    <!-- Enhanced Hero Section -->
+    <section class="hero flex items-center justify-center px-4 relative overflow-hidden">
+        
+
+        <div class="hero-content text-center text-white max-w-4xl relative z-10">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 heading-font animate-fadeIn">
+                Discover Extraordinary Art
+            </h1>
+            <p class="text-xl mb-8 opacity-90 animate-fadeIn delay-200">
+                Join our curated community of artists and collectors to explore unique pieces
+                and own exclusive artwork from around the world.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn delay-300">
+                <a href="#explore" class="group px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all transform hover:scale-105">
+                    Explore Gallery
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#join" class="group px-8 py-3 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105">
+                    Join Community
+                    <i class="fas fa-users ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="float-element absolute top-20 left-10" style="animation-delay: -1s;">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-r from-red-400 to-purple-400 opacity-70"></div>
+
+            </div>
+
+            <div class="float-element absolute bottom-10 right-10" style="animation-delay: -2s;">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-blue-400 opacity-70"></div>
+            </div>
+
+            <div class="float-element absolute bottom-1/4 right-1/4" style="animation-delay: -2s;">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-r from-yellow-400 to-pink-400 opacity-70"></div>
+            </div>
+
+            <div class="float-element absolute bottom-10 left-40" style="animation-delay: -5s;">
+                <div class="w-32 h-32 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-70"></div>
+            </div>
+            <div class="float-element absolute bottom-10 left-40" style="animation-delay: -2s;">
+                <div class="w-4 h-4 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 opacity-70"></div>
+            </div>
+        </div>
+
+
+
+    </section>
+
+
+    <!-- Enhanced Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Featured Artworks</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Discover unique pieces from our talented artists, carefully curated for art enthusiasts.
+                </p>
+            </div>
+
+            <!-- Gallery Filters -->
+            <div class="mb-12">
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="filter-button active px-6 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                        All Works
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Paintings
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Digital Art
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Sculptures
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Photography
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="file:D:\project1\tinyfied\painting1.jpg" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="file:D:\project1\tinyfied\painting2.jpg" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="file:D:\project1\tinyfied\painting3.jpg" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="file:D:\project1\tinyfied\painting4.jpg" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="file:D:\project1\tinyfied\painting5.jpg" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="file:D:\project1\tinyfied\painting6.jpg" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more gallery items following the same pattern -->
+            </div>
+            <!-- Previous gallery content remains -->
+            <div class="text-center mt-12">
+                <button id="load-more" class="load-more bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all">
+                    Load More
+                    <i class="fas fa-arrow-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Live Auctions Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Live Auctions</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Bid on exclusive artworks from renowned artists around the world.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\tinyfied\abstract1.jpg" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\tinyfied\digiart1.jpg" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\tinyfied\digiart2.jpg" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\tinyfied\digiart3.jpg" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\tinyfied\abstract2.jpg" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Add more auction items -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Featured Artists Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Featured Artists</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Meet the talented creators behind our exceptional artworks.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Artist Card -->
+                <div class="artist-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\tinyfied\digiart2 (3).jpg" alt="Artist Profile" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 artist-badge px-4 py-2 rounded-full text-white text-sm">
+                            Top Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="file:D:\project1\artist1.jpg" alt="Artist Avatar" class="w-12 h-12 rounded-full border-2 border-blue-600">
+                            <div class="ml-4">
+                                <h3 class="font-bold text-xl">Sarah Chen</h3>
+                                <p class="text-gray-600">Digital Artist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="block font-bold text-2xl">156</span>
+                                <span class="text-sm text-gray-500">Artworks</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">4.9</span>
+                                <span class="text-sm text-gray-500">Rating</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">12k</span>
+                                <span class="text-sm text-gray-500">Followers</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-white border-2 border-blue-600 text-blue-600 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                            View Collection
+                        </button>
+                    </div>
+                </div>
+                <!-- Artist Card -->
+                <div class="artist-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\artist2.jpg" alt="Artist Profile" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 artist-badge px-4 py-2 rounded-full text-white text-sm">
+                            Top Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="file:D:\project1\artist2.jpg" alt="Artist Avatar" class="w-12 h-12 rounded-full border-2 border-blue-600">
+                            <div class="ml-4">
+                                <h3 class="font-bold text-xl">Sarah Chen</h3>
+                                <p class="text-gray-600">Digital Artist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="block font-bold text-2xl">156</span>
+                                <span class="text-sm text-gray-500">Artworks</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">4.9</span>
+                                <span class="text-sm text-gray-500">Rating</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">12k</span>
+                                <span class="text-sm text-gray-500">Followers</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-white border-2 border-blue-600 text-blue-600 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                            View Collection
+                        </button>
+                    </div>
+                </div>
+                <!-- Artist Card -->
+                <div class="artist-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="file:D:\project1\artist3.jpg" alt="Artist Profile" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 artist-badge px-4 py-2 rounded-full text-white text-sm">
+                            Top Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="file:D:\project1\artist3.jpg" alt="Artist Avatar" class="w-12 h-12 rounded-full border-2 border-blue-600">
+                            <div class="ml-4">
+                                <h3 class="font-bold text-xl">Sarah Chen</h3>
+                                <p class="text-gray-600">Digital Artist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="block font-bold text-2xl">156</span>
+                                <span class="text-sm text-gray-500">Artworks</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">4.9</span>
+                                <span class="text-sm text-gray-500">Rating</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">12k</span>
+                                <span class="text-sm text-gray-500">Followers</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-white border-2 border-blue-600 text-blue-600 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                            View Collection
+                        </button>
+                    </div>
+                </div>
+                <!-- Add more artist cards -->
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Add new Forum section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Art Community Forum</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Join discussions, share insights, and stay updated with the latest in the art world.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Forum Categories -->
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">
+                        <i class="fas fa-palette mr-2 text-blue-600"></i>
+                        Art Techniques
+                    </h3>
+                    <p class="text-gray-600 mb-4">Discuss various art techniques, tools, and methods.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>324 Topics</span>
+                        <span>1.2k Posts</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">
+                        <i class="fas fa-comments mr-2 text-blue-600"></i>
+                        Artist Lounge
+                    </h3>
+                    <p class="text-gray-600 mb-4">Connect with fellow artists and share your journey.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>156 Topics</span>
+                        <span>890 Posts</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">
+                        <i class="fas fa-newspaper mr-2 text-blue-600"></i>
+                        Art News & Events
+                    </h3>
+                    <p class="text-gray-600 mb-4">Stay updated with latest art news and upcoming events.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>89 Topics</span>
+                        <span>435 Posts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- Brand Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <img src="file:D:\project1\logo\altlogo.jpg" alt="Art&You Logo" class="w-10 h-10 rounded-full">
+                        <span class="text-2xl font-bold heading-font">Art&You</span>
+                    </div>
+                    <p class="text-gray-400">Connecting artists and art lovers worldwide through a curated marketplace of exceptional artwork.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="index.html" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="file:D:\project1\ArtGallery\gallery.html" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Gallery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="file:D:\project1\ArtGallery\artists.html" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Artists
+                            </a>
+                        </li>
+                        <li>
+                            <a href="file:D:\project1\ArtGallery\auction.html" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Auction
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1.5 mr-3"></i>
+                            <span class="text-gray-400">123 Art Street, Creative District, 12345</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3"></i>
+                            <span class="text-gray-400">+1 234 567 890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span class="text-gray-400">contact@artyou.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe to receive updates about new artworks and upcoming auctions.</p>
+                    <form class="space-y-4">
+                        <div class="relative">
+                            <input type="email" placeholder="Your email address" class="w-full px-4 py-3 rounded-full bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-600 text-white">
+                            <button type="submit" class="absolute right-2 top-2 bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition-colors">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-16 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Art&You. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors transform hover:scale-110 hidden" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Add JavaScript for new functionality -->
+    <script>
+        // Utility Functions
+        const utils = {
+            // Throttle function to limit how often a function runs
+            throttle: (func, limit) => {
+                let inThrottle;
+                return function (...args) {
+                    if (!inThrottle) {
+                        func.apply(this, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                };
+            },
+
+            // Format number to currency
+            formatCurrency: (number) => {
+                return new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR'
+                }).format(number);
+            },
+
+            // Format time remaining
+            formatTimeRemaining: (endTime) => {
+                const total = Date.parse(endTime) - Date.parse(new Date());
+                const seconds = Math.floor((total / 1000) % 60);
+                const minutes = Math.floor((total / 1000 / 60) % 60);
+                const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+                const days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+                return {
+                    total,
+                    days,
+                    hours,
+                    minutes,
+                    seconds
+                };
+            }
+        };
+
+        // Navigation and Mobile Menu
+        class Navigation {
+            constructor() {
+                this.mobileMenuButton = document.querySelector('[aria-label="Menu"]');
+                this.mobileMenu = document.querySelector('.mobile-menu');
+                this.header = document.querySelector('nav');
+                this.lastScroll = 0;
+                this.init();
+            }
+
+            init() {
+                // Mobile menu toggle
+                this.mobileMenuButton?.addEventListener('click', () => this.toggleMobileMenu());
+
+                // Hide header on scroll down, show on scroll up
+                window.addEventListener('scroll', utils.throttle(() => this.handleScroll(), 100));
+
+                // Close mobile menu on window resize
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 1024) {
+                        this.closeMobileMenu();
+                    }
+                });
+
+                // Handle mobile menu links
+                const mobileMenuLinks = this.mobileMenu?.querySelectorAll('a');
+                mobileMenuLinks?.forEach(link => {
+                    link.addEventListener('click', () => this.closeMobileMenu());
+                });
+            }
+
+            toggleMobileMenu() {
+                this.mobileMenu.classList.toggle('active');
+                document.body.style.overflow = this.mobileMenu.classList.contains('active') ? 'hidden' : '';
+            }
+
+            closeMobileMenu() {
+                this.mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            handleScroll() {
+                const currentScroll = window.pageYOffset;
+
+                if (currentScroll <= 0) {
+                    this.header.classList.remove('scroll-up');
+                    return;
+                }
+
+                if (currentScroll > this.lastScroll && !this.header.classList.contains('scroll-down')) {
+                    this.header.classList.remove('scroll-up');
+                    this.header.classList.add('scroll-down');
+                } else if (currentScroll < this.lastScroll && this.header.classList.contains('scroll-down')) {
+                    this.header.classList.remove('scroll-down');
+                    this.header.classList.add('scroll-up');
+                }
+
+                this.lastScroll = currentScroll;
+            }
+        }
+
+        // Gallery and Artwork Management
+        class GalleryManager {
+            constructor() {
+                this.filterButtons = document.querySelectorAll('.filter-button');
+                this.galleryGrid = document.querySelector('.gallery-grid');
+                this.loadMoreBtn = document.getElementById('load-more');
+                this.page = 1;
+                this.loading = false;
+                this.currentFilter = 'all';
+                this.init();
+            }
+
+            init() {
+                // Initialize filters
+                this.filterButtons?.forEach(button => {
+                    button.addEventListener('click', (e) => this.handleFilter(e));
+                });
+
+                // Initialize load more
+                this.loadMoreBtn?.addEventListener('click', () => this.loadMore());
+
+                // Initialize artwork interactions
+                this.initArtworkInteractions();
+            }
+
+            handleFilter(e) {
+                const button = e.target;
+                const filter = button.dataset.filter || 'all';
+
+                // Update active state
+                this.filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Update current filter
+                this.currentFilter = filter;
+
+                // Reset page
+                this.page = 1;
+
+                // Filter artworks
+                this.filterArtworks(filter);
+            }
+
+            filterArtworks(filter) {
+                const artworks = this.galleryGrid.querySelectorAll('.art-card');
+
+                artworks.forEach(artwork => {
+                    const category = artwork.dataset.category;
+                    if (filter === 'all' || category === filter) {
+                        artwork.style.display = '';
+                        artwork.classList.add('animate__animated', 'animate__fadeIn');
+                    } else {
+                        artwork.style.display = 'none';
+                    }
+                });
+            }
+
+            async loadMore() {
+                if (this.loading) return;
+
+                this.loading = true;
+                this.loadMoreBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Add new items (replace with actual API call)
+                    const newItems = this.generateMockArtworks(6);
+                    this.galleryGrid.insertAdjacentHTML('beforeend', newItems);
+
+                    this.page++;
+
+                    // Initialize interactions for new items
+                    this.initArtworkInteractions();
+
+                    // Filter new items if needed
+                    if (this.currentFilter !== 'all') {
+                        this.filterArtworks(this.currentFilter);
+                    }
+                } catch (error) {
+                    console.error('Error loading more artworks:', error);
+                } finally {
+                    this.loading = false;
+                    this.loadMoreBtn.innerHTML = 'Load More <i class="fas fa-arrow-down ml-2"></i>';
+                }
+            }
+
+            initArtworkInteractions() {
+                const artworks = document.querySelectorAll('.art-card');
+
+                artworks.forEach(artwork => {
+                    // Quick buy button
+                    const quickBuyBtn = artwork.querySelector('.quick-buy');
+                    quickBuyBtn?.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.handleQuickBuy(artwork);
+                    });
+
+                    // View details button
+                    const viewDetailsBtn = artwork.querySelector('.view-details');
+                    viewDetailsBtn?.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.handleViewDetails(artwork);
+                    });
+                });
+            }
+
+            handleQuickBuy(artwork) {
+                // Implement quick buy logic
+                console.log('Quick buy:', artwork.dataset.id);
+            }
+
+            handleViewDetails(artwork) {
+                // Implement view details logic
+                console.log('View details:', artwork.dataset.id);
+            }
+
+            generateMockArtworks(count) {
+                // Generate mock artwork HTML
+                return Array(count).fill('').map((_, i) => `
+                <div class="art-card" data-id="${this.page * 6 + i}">
+                    <!-- Artwork card HTML structure -->
+                </div>
+            `).join('');
+            }
+        }
+
+        // Auction System
+        class AuctionManager {
+            constructor() {
+                this.auctions = document.querySelectorAll('.auction-item');
+                this.init();
+            }
+
+            init() {
+                this.auctions.forEach(auction => {
+                    const endTime = auction.dataset.endTime;
+                    this.startTimer(auction, endTime);
+                    this.initBidding(auction);
+                });
+            }
+
+            startTimer(auction, endTime) {
+                const timerDisplay = auction.querySelector('.auction-timer');
+
+                const updateTimer = () => {
+                    const time = utils.formatTimeRemaining(endTime);
+
+                    if (time.total <= 0) {
+                        clearInterval(interval);
+                        this.handleAuctionEnd(auction);
+                        return;
+                    }
+
+                    timerDisplay.innerHTML = `
+                    <div class="flex justify-center items-center space-x-4">
+                        <div class="text-center">
+                            <span class="block text-xl font-bold">${String(time.hours).padStart(2, '0')}</span>
+                            <span class="text-sm">Hours</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-xl font-bold">${String(time.minutes).padStart(2, '0')}</span>
+                            <span class="text-sm">Minutes</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-xl font-bold">${String(time.seconds).padStart(2, '0')}</span>
+                            <span class="text-sm">Seconds</span>
+                        </div>
+                    </div>
+                `;
+                };
+
+                const interval = setInterval(updateTimer, 1000);
+                updateTimer();
+            }
+
+            initBidding(auction) {
+                const bidButton = auction.querySelector('.place-bid');
+                const currentPrice = auction.querySelector('.current-price');
+
+                bidButton?.addEventListener('click', () => {
+                    this.handleBid(auction, currentPrice);
+                });
+            }
+
+            handleBid(auction, priceElement) {
+                // Implement bidding logic
+                const currentPrice = parseFloat(priceElement.dataset.price);
+                const minIncrement = parseFloat(auction.dataset.minIncrement) || 100;
+                const newPrice = currentPrice + minIncrement;
+
+                // Update UI
+                priceElement.textContent = utils.formatCurrency(newPrice);
+                priceElement.dataset.price = newPrice;
+
+                // Animate price change
+                priceElement.classList.add('animate__animated', 'animate__heartBeat');
+                setTimeout(() => {
+                    priceElement.classList.remove('animate__animated', 'animate__heartBeat');
+                }, 1000);
+            }
+
+            handleAuctionEnd(auction) {
+                auction.classList.add('auction-ended');
+                const bidButton = auction.querySelector('.place-bid');
+                bidButton.disabled = true;
+                bidButton.textContent = 'Auction Ended';
+            }
+        }
+
+        // Back to Top Button
+        class BackToTop {
+            constructor() {
+                this.button = document.getElementById('backToTop');
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', utils.throttle(() => this.toggleButton(), 100));
+                this.button?.addEventListener('click', (e) => this.scrollToTop(e));
+            }
+
+            toggleButton() {
+                if (window.scrollY > 500) {
+                    this.button.classList.add('visible');
+                } else {
+                    this.button.classList.remove('visible');
+                }
+            }
+
+            scrollToTop(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Newsletter Subscription
+        class Newsletter {
+            constructor() {
+                this.form = document.querySelector('.newsletter-form');
+                this.init();
+            }
+
+            init() {
+                this.form?.addEventListener('submit', (e) => this.handleSubmit(e));
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                const email = this.form.querySelector('input[type="email"]').value;
+                const submitButton = this.form.querySelector('button[type="submit"]');
+
+                // Validate email
+                if (!this.validateEmail(email)) {
+                    this.showMessage('Please enter a valid email address', 'error');
+                    return;
+                }
+
+                // Show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Success
+                    this.showMessage('Thank you for subscribing!', 'success');
+                    this.form.reset();
+                } catch (error) {
+                    this.showMessage('An error occurred. Please try again.', 'error');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Subscribe';
+                }
+            }
+
+            validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            showMessage(message, type) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${type} animate__animated animate__fadeIn`;
+                messageElement.textContent = message;
+
+                this.form.appendChild(messageElement);
+
+                setTimeout(() => {
+                    messageElement.remove();
+                }, 3000);
+            }
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize all components
+            new Navigation();
+            new GalleryManager();
+            new AuctionManager();
+            new BackToTop();
+            new Newsletter();
+
+            // Initialize animations
+            const animateOnScroll = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                        animateOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            // Observe elements for animation
+            document.querySelectorAll('.art-card, .artist-card, .auction-item').forEach(element => {
+                animateOnScroll.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
