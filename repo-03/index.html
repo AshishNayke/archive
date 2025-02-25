@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Art&You - Premium Marketplace for Unique Artworks">
+    <meta name="keywords" content="art, marketplace, digital art, paintings, sculptures, auctions">
+    
+    <title>Art&You - Premium Art Marketplace</title>
+    
+    <!-- Enhanced styling with modern Tailwind and custom fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #4F46E5;
+            --secondary-color: #10B981;
+            --accent-color: #F59E0B;
+            --dark-color: #1F2937;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Enhanced Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Improved Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                        url('/api/placeholder/1920/1080') center/cover;
+            min-height: 90vh;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to top, var(--dark-color), transparent);
+        }
+
+        /* Enhanced Card Animations */
+        .art-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .art-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                       0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Improved Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        /* Enhanced Navigation */
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Improved Auction Timer */
+        .auction-timer {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enhanced Artist Cards */
+        .artist-card {
+            transition: all 0.4s ease;
+        }
+
+        .artist-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .artist-badge {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        /* Responsive Improvements */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 70vh;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .mobile-menu {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+        }
+
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Enhanced Navbar -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-2">
+                    <img src="/api/placeholder/40/40" alt="Art&You Logo" class="w-10 h-10 rounded-full">
+                    <span class="text-2xl font-bold heading-font bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                        Art&You
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="/gallery" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Gallery
+                    </a>
+                    <a href="/auctions" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Auctions
+                    </a>
+                    <a href="/artists" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        Artists
+                    </a>
+                    <a href="/about" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">
+                        About
+                    </a>
+                </div>
+
+                <!-- Auth Buttons -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <button class="px-6 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        Sign In
+                    </button>
+                    <button class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                        Join Now
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden rounded-md p-2 hover:bg-gray-100" aria-label="Menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu fixed inset-0 bg-white z-50 lg:hidden">
+            <!-- Mobile menu content -->
+        </div>
+    </nav>
+
+    <!-- Enhanced Hero Section -->
+    <section class="hero flex items-center justify-center px-4 relative overflow-hidden">
+        <div class="hero-content text-center text-white max-w-4xl relative z-10">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 heading-font animate-fadeIn">
+                Discover Extraordinary Art
+            </h1>
+            <p class="text-xl mb-8 opacity-90 animate-fadeIn delay-200">
+                Join our curated community of artists and collectors to explore unique pieces 
+                and own exclusive artwork from around the world.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn delay-300">
+                <a href="#explore" class="group px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all transform hover:scale-105">
+                    Explore Gallery
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#join" class="group px-8 py-3 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105">
+                    Join Community
+                    <i class="fas fa-users ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-10 animate-float">
+            <img src="/api/placeholder/100/100" alt="Decorative Element" class="w-20 h-20 rounded-full opacity-50">
+        </div>
+        <div class="absolute bottom-1/4 right-10 animate-float delay-200">
+            <img src="/api/placeholder/100/100" alt="Decorative Element" class="w-16 h-16 rounded-full opacity-50">
+        </div>
+    </section>
+
+    <!-- Enhanced Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Featured Artworks</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Discover unique pieces from our talented artists, carefully curated for art enthusiasts.
+                </p>
+            </div>
+
+            <!-- Gallery Filters -->
+            <div class="mb-12">
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="filter-button active px-6 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                        All Works
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Paintings
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Digital Art
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Sculptures
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        Photography
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="/api/placeholder/400/300" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="/api/placeholder/400/300" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Items -->
+                <div class="art-card rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative group">
+                        <img src="/api/placeholder/400/300" alt="Artwork Title" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <button class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors mb-2">
+                                    View Details
+                                </button>
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                                    Quick Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Ethereal Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">₹12,000</span>
+                            <span class="text-sm text-gray-500">Digital Art</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more gallery items following the same pattern -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Live Auctions Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Live Auctions</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Bid on exclusive artworks from renowned artists around the world.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/api/placeholder/400/300" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                          <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/api/placeholder/400/300" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                          <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Auction Item -->
+                <div class="art-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/api/placeholder/400/300" alt="Auction Item" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-2 rounded-full text-blue-600 font-bold">
+                            Current: ₹15,000
+                        </div>
+                        <div class="auction-timer absolute bottom-4 left-4 right-4 text-white py-2 px-4 rounded-lg text-center">
+                          <div class="flex justify-center items-center space-x-4">
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">02</span>
+                                    <span class="text-sm">Hours</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">45</span>
+                                    <span class="text-sm">Minutes</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block text-xl font-bold">30</span>
+                                    <span class="text-sm">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Abstract Dreams</h3>
+                        <p class="text-gray-600 mb-4">by Sarah Chen</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-gray-500">🔥 12 active bids</span>
+                            <span class="text-sm text-gray-500">Started at: ₹5,000</span>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">
+                            Place Bid Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Add more auction items -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Featured Artists Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold heading-font mb-4">Featured Artists</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Meet the talented creators behind our exceptional artworks.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Artist Card -->
+                <div class="artist-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/api/placeholder/400/400" alt="Artist Profile" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 artist-badge px-4 py-2 rounded-full text-white text-sm">
+                            Top Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="/api/placeholder/50/50" alt="Artist Avatar" class="w-12 h-12 rounded-full border-2 border-blue-600">
+                            <div class="ml-4">
+                                <h3 class="font-bold text-xl">Sarah Chen</h3>
+                                <p class="text-gray-600">Digital Artist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="block font-bold text-2xl">156</span>
+                                <span class="text-sm text-gray-500">Artworks</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">4.9</span>
+                                <span class="text-sm text-gray-500">Rating</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">12k</span>
+                                <span class="text-sm text-gray-500">Followers</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-white border-2 border-blue-600 text-blue-600 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                            View Collection
+                        </button>
+                    </div>
+                </div>
+                <!-- Artist Card -->
+                <div class="artist-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/api/placeholder/400/400" alt="Artist Profile" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 artist-badge px-4 py-2 rounded-full text-white text-sm">
+                            Top Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="/api/placeholder/50/50" alt="Artist Avatar" class="w-12 h-12 rounded-full border-2 border-blue-600">
+                            <div class="ml-4">
+                                <h3 class="font-bold text-xl">Sarah Chen</h3>
+                                <p class="text-gray-600">Digital Artist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="block font-bold text-2xl">156</span>
+                                <span class="text-sm text-gray-500">Artworks</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">4.9</span>
+                                <span class="text-sm text-gray-500">Rating</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">12k</span>
+                                <span class="text-sm text-gray-500">Followers</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-white border-2 border-blue-600 text-blue-600 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                            View Collection
+                        </button>
+                    </div>
+                </div>
+                <!-- Artist Card -->
+                <div class="artist-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/api/placeholder/400/400" alt="Artist Profile" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 artist-badge px-4 py-2 rounded-full text-white text-sm">
+                            Top Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="/api/placeholder/50/50" alt="Artist Avatar" class="w-12 h-12 rounded-full border-2 border-blue-600">
+                            <div class="ml-4">
+                                <h3 class="font-bold text-xl">Sarah Chen</h3>
+                                <p class="text-gray-600">Digital Artist</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="block font-bold text-2xl">156</span>
+                                <span class="text-sm text-gray-500">Artworks</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">4.9</span>
+                                <span class="text-sm text-gray-500">Rating</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-2xl">12k</span>
+                                <span class="text-sm text-gray-500">Followers</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-white border-2 border-blue-600 text-blue-600 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                            View Collection
+                        </button>
+                    </div>
+                </div>
+                <!-- Add more artist cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- Brand Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <img src="/api/placeholder/40/40" alt="Art&You Logo" class="w-10 h-10 rounded-full">
+                        <span class="text-2xl font-bold heading-font">Art&You</span>
+                    </div>
+                    <p class="text-gray-400">Connecting artists and art lovers worldwide through a curated marketplace of exceptional artwork.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Gallery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Auctions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Artists
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1.5 mr-3"></i>
+                            <span class="text-gray-400">123 Art Street, Creative District, 12345</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3"></i>
+                            <span class="text-gray-400">+1 234 567 890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span class="text-gray-400">contact@artyou.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe to receive updates about new artworks and upcoming auctions.</p>
+                    <form class="space-y-4">
+                        <div class="relative">
+                            <input type="email" placeholder="Your email address" class="w-full px-4 py-3 rounded-full bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-600 text-white">
+                            <button type="submit" class="absolute right-2 top-2 bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition-colors">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-16 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Art&You. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors transform hover:scale-110 hidden" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+</body>
+</html>
