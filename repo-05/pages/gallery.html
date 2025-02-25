@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Art&You - Premium Marketplace for Unique Artworks">
+    <meta name="keywords" content="art, marketplace, digital art, paintings, sculptures, auctions">
+
+    <title>Art&You - Premium Art Marketplace</title>
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #4F46E5;
+            --secondary-color: #10B981;
+            --accent-color: #F59E0B;
+            --dark-color: #1F2937;
+            --transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Core styles */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-display: swap;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+            font-display: swap;
+        }
+
+        /* Enhanced scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #3730a3;
+            }
+
+        /* Text selection */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Button effects */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--transition-bezier);
+        }
+
+            .btn-hover-effect::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.6s, height 0.6s;
+            }
+
+            .btn-hover-effect:hover::before {
+                width: 300%;
+                height: 300%;
+            }
+
+        /* Card interactions */
+        .art-card {
+            transition: all 0.4s var(--transition-bezier);
+        }
+
+            .art-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+
+        /* Image hover effects */
+        .image-hover-zoom {
+            transition: transform 0.6s var(--transition-bezier);
+        }
+
+        .art-card:hover .image-hover-zoom {
+            transform: scale(1.1);
+        }
+
+        /* Navigation animation */
+        .nav-link {
+            position: relative;
+        }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--primary-color);
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform 0.3s var(--transition-bezier);
+            }
+
+            .nav-link:hover::after {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s var(--transition-bezier);
+        }
+
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatAnimation {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-30px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float-element {
+            animation: floatAnimation 6s ease-in-out infinite;
+        }
+
+        /* Hero section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            background-image: url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+            .hero::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+                z-index: 1;
+            }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 80vh;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <a href="./index.html" class="flex items-center space-x-2">
+                    <img src="./assets/logo.jpg" alt="Art&You Logo" class="w-10 h-10 rounded-full">
+                    <span class="text-2xl font-bold heading-font bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                        Art&You
+                    </span>
+                </a>
+
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="./gallery.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Gallery</a>
+                    <a href="./artists.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Artists</a>
+                    <a href="./auction.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Auctions</a>
+                    <a href="./forum.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Forum</a>
+                </div>
+
+                <div class="hidden lg:flex items-center space-x-4">
+                    <button class="px-6 py-2 text-gray-700 hover:text-blue-600 transition-colors">Sign In</button>
+                    <button class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors transform hover:scale-105">Join Now</button>
+                </div>
+
+                <button class="lg:hidden rounded-md p-2 hover:bg-gray-100" aria-label="Toggle menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="mobile-menu fixed inset-0 bg-white z-50 lg:hidden">
+            <div class="p-4">
+                <button class="mb-4" aria-label="Close menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <div class="flex flex-col space-y-4">
+                    <a href="./gallery.html" class="text-gray-700 hover:text-blue-600">Gallery</a>
+                    <a href="./artists.html" class="text-gray-700 hover:text-blue-600">Artists</a>
+                    <a href="./auction.html" class="text-gray-700 hover:text-blue-600">Auctions</a>
+                    <a href="./forum.html" class="text-gray-700 hover:text-blue-600">Forum</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Artists Hero Section -->
+    <section class="bg-gray-50 py-20" aria-labelledby="artists-title">
+        <div class="container mx-auto px-4 text-center">
+            <h1 id="artists-title" class="text-5xl font-bold heading-font mb-6">
+                Discover Extraordinary Art
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Curated collections from emerging and established artists worldwide.
+            </p>
+        </div>
+    </section>
+    <!-- Main content -->
+    <main class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12">
+
+        <!-- Filters -->
+        <section class="mb-12">
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <select class="px-4 py-2 border rounded-full shadow-sm" aria-label="Filter by medium">
+                    <option>All Mediums</option>
+                    <option>Digital Art</option>
+                    <option>Traditional Art</option>
+                    <option>Sculpture</option>
+                    <option>Photography</option>
+                </select>
+                <select class="px-4 py-2 border rounded-full shadow-sm" aria-label="Filter by price">
+                    <option>Price Range</option>
+                    <option>₹0 - ₹5,000</option>
+                    <option>₹5,001 - ₹20,000</option>
+                    <option>₹20,000 - ₹1,00,000</option>
+                    <option>Above ₹1,00,000</option>
+                </select>
+                <input type="text"
+                       placeholder="Search artworks"
+                       class="px-4 py-2 border rounded-full w-64 shadow-sm"
+                       aria-label="Search artworks">
+            </div>
+
+            <!-- Artwork grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Artwork card template -->
+                <div class="art-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative overflow-hidden">
+                        <img src="/api/placeholder/400/300"
+                             alt="Ethereal Landscape artwork"
+                             class="w-full h-64 object-cover image-hover-zoom"
+                             loading="lazy">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Ethereal Landscape</h3>
+                        <p class="text-gray-500">By Emma Rodriguez</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-indigo-600 font-bold">₹8,500</span>
+                            <button class="btn-hover-effect bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Artwork card template -->
+                <div class="art-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative overflow-hidden">
+                        <img src="/api/placeholder/400/300"
+                             alt="Ethereal Landscape artwork"
+                             class="w-full h-64 object-cover image-hover-zoom"
+                             loading="lazy">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Ethereal Landscape</h3>
+                        <p class="text-gray-500">By Emma Rodriguez</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-indigo-600 font-bold">₹8,500</span>
+                            <button class="btn-hover-effect bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Artwork card template -->
+                <div class="art-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative overflow-hidden">
+                        <img src="/api/placeholder/400/300"
+                             alt="Ethereal Landscape artwork"
+                             class="w-full h-64 object-cover image-hover-zoom"
+                             loading="lazy">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Ethereal Landscape</h3>
+                        <p class="text-gray-500">By Emma Rodriguez</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-indigo-600 font-bold">₹8,500</span>
+                            <button class="btn-hover-effect bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Artwork card template -->
+                <div class="art-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative overflow-hidden">
+                        <img src="/api/placeholder/400/300"
+                             alt="Ethereal Landscape artwork"
+                             class="w-full h-64 object-cover image-hover-zoom"
+                             loading="lazy">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Ethereal Landscape</h3>
+                        <p class="text-gray-500">By Emma Rodriguez</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-indigo-600 font-bold">₹8,500</span>
+                            <button class="btn-hover-effect bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat artwork card 5 more times -->
+            </div>
+        </section>
+        <!-- Pagination with Enhanced Accessibility -->
+        <div class="flex justify-center mt-12 space-x-4" aria-label="Artist List Pagination">
+            <button aria-label="Previous page" class="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700">Previous</button>
+            <div class="flex space-x-2">
+                <button aria-label="Page 1" class="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700">1</button>
+                <button aria-label="Page 2" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-indigo-700 text-white">2</button>
+                <button aria-label="Page 3" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-indigo-700 text-white">3</button>
+            </div>
+            <button aria-label="Next page" class="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700">Next</button>
+        </div>
+    </main>
+
+    <!-- Footer: Identical to original -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- Brand Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <img src="/api/placeholder/40/40" alt="Art&You Logo" class="w-10 h-10 rounded-full">
+                        <span class="text-2xl font-bold heading-font">Art&You</span>
+                    </div>
+                    <p class="text-gray-400">Connecting artists and art lovers worldwide through a curated marketplace of exceptional artwork.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Gallery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Auctions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-sm"></i>
+                                Artists
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1.5 mr-3"></i>
+                            <span class="text-gray-400">123 Art Street, Creative District, 12345</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3"></i>
+                            <span class="text-gray-400">+1 234 567 890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span class="text-gray-400">contact@artyou.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe to receive updates about new artworks and upcoming auctions.</p>
+                    <form class="space-y-4">
+                        <div class="relative">
+                            <input type="email" placeholder="Your email address" class="w-full px-4 py-3 rounded-full bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-600 text-white">
+                            <button type="submit" class="absolute right-2 top-2 bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition-colors">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-16 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Art&You. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
